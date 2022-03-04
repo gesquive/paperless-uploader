@@ -1,0 +1,14 @@
+/bin/*
+vendor/*
+dist/
+scripts/
+
+*.bak
+*.log
+
+config*.yml
+!docker/config.yml
+!.circleci/config.yml
+!pkg/config.example.yml
+
+paperless-uploader
