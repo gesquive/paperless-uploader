@@ -1,0 +1,4 @@
+log_file: stdout
+watch:
+  path: /watch
+  interval: 5s
