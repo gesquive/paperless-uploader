@@ -3,6 +3,6 @@ paperless:
   url: https://paperless.mydomain.com
   token: nlziks5znzem3or4eezcanu80l9d698v1bx0pwph
 watch:
-  path: /path/to/watch
+  path: /usr/local/var/paperless-watch
   interval: 10s
-  filter: "\.pdf$"
+# filter: "\.pdf$"

@@ -69,3 +69,69 @@ release:
 
   # You can change the name of the GitHub release.
   name_template: "{{.Tag}}"
+
+
+brews:
+  -
+    # Github repository to push the tap to.
+    github:
+      owner: gesquive
+      name: homebrew-tap
+
+    # Git author used to commit to the repository.
+    # Defaults are shown.
+    commit_author:
+      name: release-bot
+      email: gesquive@gmail.com
+
+    # Folder inside the repository to put the formula.
+    # Default is the root folder.
+    folder: Formula
+
+    # Caveats for the user of your binary.
+    # Default is empty.
+    caveats: ""
+
+    # Your app's homepage.
+    # Default is empty.
+    homepage: "https://github.com/gesquive/paperless-uploader"
+
+    # Your app's description.
+    # Default is empty.
+    description: "Watches a directory for files and uploads them to paperless-ng"
+
+    # If set to auto, the release will not be uploaded to the homebrew tap
+    # in case there is an indicator for prerelease in the tag e.g. v1.0.0-rc1
+    skip_upload: auto
+
+    # Packages your package depends on.
+    dependencies: []
+
+    # Packages that conflict with your package.
+    conflicts: []
+
+    # Custom block for brew.
+    # Can be used to specify alternate downloads for devel or head releases.
+    # Default is empty.
+    custom_block: |
+      service do
+        run [opt_bin/"paperless-uploader", "--config", etc/"paperless/config.yml"]
+        working_dir var
+        log_path var/"log/paperless-uploader.log"
+        error_log_path var/"log/paperless-uploader.log"
+      end
+
+
+    # Custom install script for brew.
+    # Default is 'bin.install "program"'.
+    install: |
+      bin.install "paperless-uploader"
+
+    # Custom post_install script for brew.
+    # Could be used to do any additional work after the "install" script
+    # Default is empty.
+    post_install: |
+      etc.mkpath "paperless"
+      etc.install "pkg/config.example.yml" => "paperless/config.yml"
+      var.mkpath "paperless-watch"
+
