@@ -22,8 +22,6 @@ builds:
       goarch: 386
     - goos: darwin
       goarch: arm
-    - goos: darwin
-      goarch: arm64
 
 snapshot:
   # Allows you to change the name of the generated snapshot
@@ -74,7 +72,7 @@ release:
 brews:
   -
     # Github repository to push the tap to.
-    github:
+    tap:
       owner: gesquive
       name: homebrew-tap
 
@@ -120,7 +118,6 @@ brews:
         log_path var/"log/paperless-uploader.log"
         error_log_path var/"log/paperless-uploader.log"
       end
-
 
     # Custom install script for brew.
     # Default is 'bin.install "program"'.
