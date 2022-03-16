@@ -128,7 +128,17 @@ brews:
     # Could be used to do any additional work after the "install" script
     # Default is empty.
     post_install: |
-      etc.mkpath "paperless"
-      etc.install "pkg/config.example.yml" => "paperless/config.yml"
-      var.mkpath "paperless-watch"
+      (var/"paperless-watch").mkpath
+      (etc/"paperless").mkpath
+      if !File.exist?(etc/"paperless/config.yml")
+        (etc/"paperless/config.yml").write <<~EOS
+          log_file: stdout
+          paperless:
+            url: https://paperless.mydomain.com
+            token: insert_paperless_token_here
+          watch:
+            path: /usr/local/var/paperless-watch
+            interval: 10s
+        EOS
+      end
 
