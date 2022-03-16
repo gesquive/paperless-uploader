@@ -32,6 +32,13 @@ To get the sample config working, you will need to configure the SMTP server and
 
 For more details read the [Docker image documentation](https://hub.docker.com/r/gesquive/paperless-uploader).
 
+### Homebrew
+This app is also avalable from this [homebrew tap](https://github.com/gesquive/homebrew-tap). Just install the tap and then the app will be available.
+```shell
+$ brew tap gesquive/tap
+$ brew install paperless-uploader
+```
+
 ## Configuration
 
 ### Precedence Order
@@ -56,10 +63,15 @@ If you are planning to run this app as a service, it is recommended that you pla
 ### Environment Variables
 Optionally, instead of using a config file you can specify config entries as environment variables. Use the prefix `PAPERLESS_UPLOADER_` in front of the uppercased variable name. For example, the config variable `paperless-url` would be the environment variable `PAPERLESS_UPLOADER_PAPERLESS_URL`.
 
-### Service
+## Running as a Service
 This application was developed to run as a service.
 
+### NIX
 You can use upstart, init, runit or any other service manager to run the `paperless-uploader` executable. Example scripts for systemd and upstart can be found in the `pkg/services` directory. A logrotate script can also be found in the `pkg/services` directory. All of the configs assume the user to run as is named `paperless-uploader`, make sure to change this if needed.
+
+### Homebrew
+The homebrew tap installs as a service that can be managed with the commands `brew services (start|stop|restart) gesquive/tap/paperless-uploader`. Before running, edit the config file located at `/usr/local/etc/paperless/config.yml`. To debug, read the service logs at `/usr/local/var/log/paperless-uploader.log`.
+By default, the service watches the directory `/usr/local/var/paperless-watch`.
 
 ## Usage
 
