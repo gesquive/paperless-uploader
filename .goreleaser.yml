@@ -12,14 +12,14 @@ builds:
     - darwin
     - windows
   goarch:
-    - 386
+    - "386"
     - amd64
     - arm
     - arm64
-  goarm: [6,7]
+  goarm: ["6","7"]
   ignore:
     - goos: darwin
-      goarch: 386
+      goarch: "386"
     - goos: darwin
       goarch: arm
 
@@ -29,10 +29,14 @@ snapshot:
   name_template: '{{ .Version }}+{{.ShortCommit}}'
 
 archives:
-- name_template: "{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
-  replacements:
-    386: i386
-    amd64: x86_64
+- name_template: >-
+      {{- .ProjectName }}_v
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end -}}
   format_overrides:
     - goos: windows
       format: zip
@@ -48,13 +52,26 @@ checksum:
   algorithm: sha256
 
 changelog:
-  skip: true
+  skip: false
   sort: asc
+  groups:
+    - title: 'New Features'
+      regexp: "^feat[(\\w)]*:+.*$"
+      order: 0
+    - title: 'Bug Fixes'
+      regexp: "^fix[(\\w)]*:+.*$"
+      order: 10
+    - title: 'Other Work'
+      order: 999
   filters:
     exclude:
     - '^docs:'
     - '^test:'
     - '^blds:'
+    - Merge pull request
+    - Merge remote-tracking branch
+    - Merge branch
+    - go mod tidy
 
 release:
   # If set to true, will not auto-publish the release.
@@ -72,7 +89,7 @@ release:
 brews:
   -
     # Github repository to push the tap to.
-    tap:
+    repository:
       owner: gesquive
       name: homebrew-tap
 
@@ -141,4 +158,3 @@ brews:
             interval: 10s
         EOS
       end
-

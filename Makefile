@@ -105,11 +105,11 @@ clean: ## Clean the directory tree
 
 .PHONY: release-snapshot
 release-snapshot: ${GORELEASER} ## Cross compile and package to local disk
-	${GORELEASER} release --skip-publish --rm-dist --snapshot
+	${GORELEASER} release --skip=publish --clean --snapshot
 
 .PHONY: release
 release: ${GORELEASER} ## Cross compile and package the full distribution
-	${GORELEASER} release --rm-dist
+	${GORELEASER} release --clean
 
 .PHONY: fmt
 fmt: ## Reformat the source tree with gofmt
