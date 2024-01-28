@@ -34,9 +34,8 @@ This image provides versions that are available via tags.
 Here are some example snippets to help you get started creating a docker container.
 
 ## Docker CLI
-
 ```shell
-docker create \
+docker run \
   --name=paperless-uploader \
   -v path/to/config:/config \
   -v path/to/watch:/watch \
@@ -59,6 +58,7 @@ services:
       - path/to/watch:/watch
     restart: unless-stopped
 ```
+
 # Parameters
 The container defines the following parameters that you can set:
 
