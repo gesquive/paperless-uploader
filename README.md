@@ -6,7 +6,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/gesquive/paperless-uploader?style=flat-square)](https://hub.docker.com/r/gesquive/paperless-uploader)
 
 
-Watches a directory for files and uploads them to a [paperless-ng](https://github.com/jonaswinkler/paperless-ng) instance.
+Watches a directory for files and uploads them to a [paperless-ngx](https://github.com/paperless-ngx/paperless-ngx) instance.
 
 ## Installing
 
@@ -76,7 +76,7 @@ By default, the service watches the directory `/usr/local/var/paperless-watch`.
 ## Usage
 
 ```console
-Watches a directory for files and uploads them to paperless-ng
+Watches a directory for files and uploads them to paperless-ngx
 
 Usage:
   paperless-uploader [flags]

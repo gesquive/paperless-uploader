@@ -96,7 +96,7 @@ brews:
 
     # Your app's description.
     # Default is empty.
-    description: "Watches a directory for files and uploads them to paperless-ng"
+    description: "Watches a directory for files and uploads them to paperless-ngx"
 
     # If set to auto, the release will not be uploaded to the homebrew tap
     # in case there is an indicator for prerelease in the tag e.g. v1.0.0-rc1

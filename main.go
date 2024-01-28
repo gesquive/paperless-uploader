@@ -32,8 +32,8 @@ func main() {
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:    "paperless-uploader",
-	Short:  "A paperless-ng document uploader",
-	Long:   `Watches a directory for files and uploads them to paperless-ng`,
+	Short:  "A paperless-ngx document uploader",
+	Long:   `Watches a directory for files and uploads them to paperless-ngx`,
 	PreRun: preRun,
 	Run:    run,
 }
