@@ -1,9 +1,9 @@
-# Golang CircleCi config v1.13.9
+# Golang CircleCi config v1.20.0
 version: 2
 jobs:
   build-deps:
     docker:
-      - image: gesquive/go-builder:latest
+      - image: gesquive/go-builder:1.20
     steps:
       - run: cci-clone
       - restore_cache:
@@ -17,7 +17,7 @@ jobs:
 
   test-app:
     docker:
-      - image: gesquive/go-builder:latest
+      - image: gesquive/go-builder:1.20
     steps:
       - run: cci-clone
       - restore_cache:
@@ -28,7 +28,7 @@ jobs:
 
   coverage:
     docker:
-      - image: gesquive/go-builder:latest
+      - image: gesquive/go-builder:1.20
     steps:
       - run: cci-clone
       - restore_cache:
@@ -41,7 +41,7 @@ jobs:
 
   release-app-snapshot:
     docker:
-      - image: gesquive/go-builder:latest
+      - image: gesquive/go-builder:1.20
     steps:
       - run: cci-clone
       - run: make release-snapshot
@@ -52,7 +52,7 @@ jobs:
 
   release-app-build:
     docker:
-      - image: gesquive/go-builder:latest
+      - image: gesquive/go-builder:1.20
     steps:
       - run: cci-clone
       - run: make release

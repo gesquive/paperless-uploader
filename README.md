@@ -11,7 +11,7 @@ Watches a directory for files and uploads them to a [paperless-ngx](https://gith
 ## Installing
 
 ### Compile
-This project has only been tested with go1.17+. To compile just run `go install github.com/gesquive/paperless-uploader@latest` and the executable should be built for you automatically in your `$GOPATH`.
+This project has only been tested with go1.20+. To compile just run `go install github.com/gesquive/paperless-uploader@latest` and the executable should be built for you automatically in your `$GOPATH`.
 
 Optionally you can clone the repo and run `make install` to build and copy the executable to `/usr/local/bin/` with correct permissions.
 

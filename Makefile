@@ -1,8 +1,8 @@
 #
 #  Makefile
 #
-#  A kickass golang v1.13.x makefile
-#  v1.13.9
+#  A kickass golang v1.20.x makefile
+#  v1.20.0
 
 export SHELL ?= /bin/bash
 include make.cfg
@@ -28,7 +28,7 @@ DK_PLATFORMS ?= linux/amd64,linux/arm/v7,linux/arm64
 DK_PATH ?= Dockerfile
 
 BIN ?= ${GOPATH}/bin
-GOLINT ?= ${BIN}/golint
+CHECK ?= ${BIN}/staticcheck
 GORELEASER ?= ${BIN}/goreleaser
 DOCKER ?= docker
 
@@ -47,7 +47,7 @@ help:
 build: ## Compile the project
 	@echo "building ${OWNER} ${BIN_NAME} ${MK_VERSION}"
 	@echo "GOPATH=${GOPATH}"
-	${GOCC} build -a -ldflags "-X main.buildVersion=${MK_VERSION} -X main.buildDate=${MK_DATE}" -o ${BIN_NAME}
+	${GOCC} build -a -ldflags "-X main.buildVersion=${MK_VERSION} -X main.buildDate=${MK_DATE} -X main.buildCommit=${MK_HASH}" -o ${BIN_NAME}
 
 .PHONY: install
 install: build ## Install the binary
@@ -69,9 +69,9 @@ deps: ## Download project dependencies
 	${GOCC} mod download
 	${GOCC} mod verify
 
-.PHONY: lint
-lint: ${GOLINT} ## Lint the source code
-	${GOLINT} -set_exit_status ${PKG_LIST}
+.PHONY: check
+check: ${CHECK} ## Lint/Check the source code
+	${CHECK} ${PKG_LIST}
 
 .PHONY: test
 test: ## Run golang tests
@@ -120,12 +120,12 @@ ${BIN}/%:
 	@echo "Installing ${PACKAGE} to ${BIN}"
 	@mkdir -p ${BIN}
 	@tmp=$$(mktemp -d); \
-       env GO111MODULE=on GOPATH=$$tmp GOBIN=${BIN} ${GOCC} get ${PACKAGE} \
+       env GOPATH=$$tmp GOBIN=${BIN} ${GOCC} install ${PACKAGE} \
         || ret=$$?; \
        rm -rf $$tmp ; exit $$ret
 
-${BIN}/golint:     PACKAGE=golang.org/x/lint/golint
-${BIN}/goreleaser: PACKAGE=github.com/goreleaser/goreleaser
+${BIN}/golint:     PACKAGE=honnef.co/go/tools/cmd/staticcheck@2023.1.6
+${BIN}/goreleaser: PACKAGE=github.com/goreleaser/goreleaser@v1.23.0
 
 # Docker related targets
 .PHONY: build-docker

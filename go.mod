@@ -1,6 +1,6 @@
 module github.com/gesquive/paperless-uploader
 
-go 1.17
+go 1.20
 
 require (
 	github.com/radovskyb/watcher v1.0.7
