@@ -22,10 +22,10 @@ COVER_PATH := coverage
 DIST_PATH ?= dist
 INSTALL_PATH ?= /usr/local/bin/
 
-DK_NAME := ${REGISTRY_URL}/${OWNER}/${PROJECT_NAME}
-DK_VERSION = $(shell git describe --always --tags | sed 's/^v//' | sed 's/-g/-/')
-DK_PLATFORMS ?= linux/amd64,linux/arm/v7,linux/arm64
-DK_PATH ?= Dockerfile
+CF_NAME := ${REGISTRY_URL}/${OWNER}/${PROJECT_NAME}
+CF_VERSION = $(shell git describe --always --tags | sed 's/^v//' | sed 's/-g/-/')
+CF_PLATFORMS ?= linux/amd64,linux/arm/v7,linux/arm64
+CF_PATH ?= Containerfile
 
 BIN ?= ${GOPATH}/bin
 CHECK ?= ${BIN}/staticcheck
@@ -127,30 +127,30 @@ ${BIN}/%:
 ${BIN}/golint:     PACKAGE=honnef.co/go/tools/cmd/staticcheck@2023.1.6
 ${BIN}/goreleaser: PACKAGE=github.com/goreleaser/goreleaser@v1.23.0
 
-# Docker related targets
+# Image related targets
 .PHONY: build-docker
-build-docker: ## Build the docker image
+build-docker: ## Build the image
 	@echo "building ${MK_VERSION}"
 	${DOCKER} info
-	${DOCKER} build -f ${DK_PATH} --build-arg TARGETARCH=amd64 --build-arg TARGETOS=linux --pull -t ${DK_NAME}:${MK_VERSION} .
+	${DOCKER} build -f ${CF_PATH} --build-arg TARGETARCH=amd64 --build-arg TARGETOS=linux --pull -t ${CF_NAME}:${MK_VERSION} .
 
 # build manifest for git describe
 # manifest version is "1.2.3-g23ab3df"
 # image version is "1.2.3-g23ab3df-amd64"
 
-.PHONY: init-docker-build
-init-docker-build:
+.PHONY: init-image-build
+init-image-build:
 	${DOCKER} context create build
 	${DOCKER} buildx create --driver docker-container --name gobuild --use build
 	${DOCKER} buildx inspect --bootstrap
 	${DOCKER} buildx ls
 
-.PHONY: release-docker-snapshot
-release-docker-snapshot: init-docker-build
-	@echo "building multi-arch docker ${DK_VERSION}"
-	${DOCKER} buildx build -f ${DK_PATH} --platform ${DK_PLATFORMS} --pull -t ${DK_NAME}:${DK_VERSION} --push .
+.PHONY: release-image-snapshot
+release-image-snapshot: init-image-build
+	@echo "building multi-arch image ${CF_VERSION}"
+	${DOCKER} buildx build -f ${CF_PATH} --platform ${CF_PLATFORMS} --pull -t ${CF_NAME}:${CF_VERSION} --push .
 
 .PHONY: release-docker
-release-docker: init-docker-build ## Build a multi-arch docker manifest and images
-	@echo "building multi-arch docker ${DK_VERSION}"
-	${DOCKER} buildx build -f ${DK_PATH} --platform ${DK_PLATFORMS} --pull -t ${DK_NAME}:${DK_VERSION} -t ${DK_NAME}:latest --push .
+release-image: init-image-build ## Build a multi-arch manifest and images
+	@echo "building multi-arch image ${CF_VERSION}"
+	${DOCKER} buildx build -f ${CF_PATH} --platform ${CF_PLATFORMS} --pull -t ${CF_NAME}:${CF_VERSION} -t ${CF_NAME}:latest --push .

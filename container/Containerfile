@@ -7,7 +7,7 @@ COPY dist/ /dist/
 RUN copy-release
 RUN chmod +x /app/paperless-uploader
 
-COPY docker/config.yml /etc/paperless-uploader
+COPY container/config.yml /etc/paperless-uploader/config.yml
 
 # =============================================================================
 FROM gesquive/docker-base:busybox
@@ -19,7 +19,7 @@ COPY --from=builder /etc/paperless-uploader/ /etc/paperless-uploader/
 
 WORKDIR /config
 VOLUME /config
-volume /watch
+VOLUME /watch
 
 ENTRYPOINT ["run"]
 CMD ["/app/paperless-uploader"]

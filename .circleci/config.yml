@@ -70,11 +70,11 @@ jobs:
           keys:
             - go-snap-v1-{{ .Environment.CIRCLE_SHA1 }}
       - setup_remote_docker:
-          version: 19.03.13
+          version: default
       - run: docker login -u $DOCKER_USER -p $DOCKER_TOKEN $DOCKER_REGISTRY
       - run: docker info
       - run: docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
-      - run: make release-docker-snapshot
+      - run: make release-image-snapshot
 
   release-docker-build:
     docker:
@@ -85,11 +85,11 @@ jobs:
           keys:
             - go-dist-v1-{{ .Environment.CIRCLE_SHA1 }}
       - setup_remote_docker:
-          version: 19.03.13
+          version: default
       - run: docker login -u $DOCKER_USER -p $DOCKER_TOKEN $DOCKER_REGISTRY
       - run: docker info
       - run: docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
-      - run: make release-docker
+      - run: make release-image
 
 
 workflows:
