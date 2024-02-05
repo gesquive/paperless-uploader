@@ -63,6 +63,9 @@ If you are planning to run this app as a service, it is recommended that you pla
 ### Environment Variables
 Optionally, instead of using a config file you can specify config entries as environment variables. Use the prefix `PAPERLESS_UPLOADER_` in front of the uppercased variable name. For example, the config variable `paperless-url` would be the environment variable `PAPERLESS_UPLOADER_PAPERLESS_URL`.
 
+### Authorization Tokens
+An authorization token is required to upload to a paperless-ngx instance. Refer to the [documentation on how to generate a token](https://docs.paperless-ngx.com/api/#authorization).
+
 ## Running as a Service
 This application was developed to run as a service.
 
